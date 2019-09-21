@@ -39,7 +39,7 @@ defmodule SpritePacker.Algorithms.Packing.SimpleBinpack do
   end
 
   defp find_atlasnode(%{w: b_w, h: b_h} = _block, %{w: node_w, h: node_h} = parent, atlas_tree)
-      when b_w <= node_w and b_h <= node_h do
+       when b_w <= node_w and b_h <= node_h do
     Enum.fetch!(atlas_tree, parent.id)
   end
 
