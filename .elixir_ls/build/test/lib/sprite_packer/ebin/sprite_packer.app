@@ -3,6 +3,7 @@
               {description,"sprite_packer"},
               {modules,['Elixir.SpritePacker',
                         'Elixir.SpritePacker.Algorithms.Packing.GrowingBinpack',
-                        'Elixir.SpritePacker.Algorithms.Packing.SimpleBinpack']},
+                        'Elixir.SpritePacker.Algorithms.Packing.SimpleBinpack',
+                        'Elixir.SpritePacker.Algorithms.Sort']},
               {registered,[]},
               {vsn,"0.1.0"}]}.

@@ -1,4 +1,4 @@
 defmodule SpritePackerTest do
   use ExUnit.Case
-  doctest SpritePacker
+  # doctest SpritePacker
 end
