@@ -8,11 +8,11 @@ SpritePacker is a command-line spritesheet (a.k.a. Texture Atlas) generator writ
 ### Usage ###
 **Command Line**
 ```bash
-$ escript sprite_packer -s test_sprites
+$ escript .\sprite_packer -s .\test_sprites\
 ```
 Options:
 ```bash
-Note: Atlas will be generated in "<source>/sprite_packer/"
+Note: Atlas and json data will be generated in "<source>/sprite_packer/"
 
 Options:
     -s, [--src] # source directory of sprites to be packed into atlas
@@ -24,20 +24,12 @@ Options:
 
 ### Installation ###
 1. Install [ImageMagick](http://www.imagemagick.org/)
-2. mix escript.build (for building commandline)
+2. run mix escript.build (for building commandline application) from the project root.
 
-If [available in Hex](https://hex.pm/docs/publish), the package can be installed
-by adding `sprite_packer` to your list of dependencies in `mix.exs`:
+### Test ###
 
-```elixir
-def deps do
-  [
-    {:sprite_packer, "~> 0.1.0"}
-  ]
-end
-```
+1.Build the Command-line application.
+2.run ```escript .\sprite_packer -s .\test_sprites\ ```
+3.A folder <sprite_packer> will be generated inside test_sprites(source_directory) with spriteatlas.png and spriteatlas.json
 
-Documentation can be generated with [ExDoc](https://github.com/elixir-lang/ex_doc)
-and published on [HexDocs](https://hexdocs.pm). Once published, the docs can
-be found at [https://hexdocs.pm/sprite_packer](https://hexdocs.pm/sprite_packer).
 
