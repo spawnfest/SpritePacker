@@ -6,13 +6,18 @@ defmodule SpritePacker.Algorithms.Packing.SimpleBinpack do
   """
   require Logger
 
-  def pack(blocks, atlas_width \\ 1024, atlas_height \\ 768) do
+  def pack(blocks, {atlas_width, atlas_height} = _atlas_size) do
     create_atlas_tree(atlas_width, atlas_height)
     |> pack_the_blocks(blocks, [])
   end
 
   # A recursive function, that loops through each block and find a fit in the atlas.
-  defp pack_the_blocks(_atlas_tree, [], new_block_list), do: new_block_list
+  # Returns a {size, new_image_block_list}
+
+  defp pack_the_blocks(atlas_tree, [], new_block_list) do
+    root_node = Enum.at(atlas_tree, 0)
+    {{root_node.w, root_node.h}, new_block_list}
+  end
 
   defp pack_the_blocks(atlas_tree, [h | t], new_block_list) do
     # Starting from the root node.

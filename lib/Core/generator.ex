@@ -1,20 +1,21 @@
 defmodule SpritePacker.Core.Generator do
   @moduledoc """
-    Contains all the core functions for gnerating spritesheets
+    Contains all the core functions for generating spritesheets
   """
-  @source_dir "sprite_generator_source"
-  @dest_dir "sprite_generator_dest"
 
   require Logger
 
   @doc """
     Create image_blocks(an in-program image representation) from each image in the source directory
   """
-  def create_image_blocks() do
-    case File.ls(@source_dir) do
+  def create_image_blocks(source_dir) do
+    case File.ls(source_dir) do
+      {:ok, []} ->
+        "No file in the directory"
+
       {:ok, files} ->
-        filter_files_if_any(files)
-        |> create_image_block_list()
+        filter_only_images(files)
+        |> create_image_block_list(source_dir)
 
       {:error, _} ->
         "Error finding the source directory"
@@ -26,15 +27,18 @@ defmodule SpritePacker.Core.Generator do
 
     Accepts size tuple, image_block_list
   """
-  def generate_spriteatlas({width, height}, block_list) do
-    create_image_generation_command({width, height}, block_list)
+  def generate_spriteatlas({{width, height}, block_list} = _atlas_info, dest_dir) do
+    create_image_generation_command({width, height}, block_list, dest_dir)
     |> execute_command()
   end
 
-  defp filter_files_if_any(files) do
+  defp filter_only_images(files) do
     files
     |> Enum.filter(fn file ->
-      file |> String.split(".") |> Enum.at(1) |> is_image()
+      file
+      |> String.split(".")
+      |> Enum.at(1)
+      |> is_image()
     end)
   end
 
@@ -42,33 +46,40 @@ defmodule SpritePacker.Core.Generator do
     file_extension in ["png", "jpeg", "jpg"]
   end
 
-  defp create_image_block_list(files) do
+  defp create_image_block_list([], _source_dir), do: []
+
+  defp create_image_block_list(files, source_dir) do
     files
     |> Enum.reduce([], fn file, block_list ->
-      [extract_image_details_to_block(file) | block_list]
+      [extract_image_details_to_block(file, source_dir) | block_list]
     end)
   end
 
-  defp extract_image_details_to_block(file) do
-    {size, _} = System.cmd("magick", ["identify", "-format", "%wx%h", "#{@source_dir}/#{file}"])
-    size_list = size |> String.split("x") |> Enum.map(fn size -> String.to_integer(size) end)
+  defp extract_image_details_to_block(file, source_dir) do
+    {size, _} = System.cmd("magick", ["identify", "-format", "%wx%h", "#{source_dir}/#{file}"])
+
+    size_list =
+      size
+      |> String.split("x")
+      |> Enum.map(fn size -> String.to_integer(size) end)
+
     block = %{x: 0, y: 0, w: nil, h: nil, can_fit: false, path: nil}
 
     %{
       block
       | w: Enum.at(size_list, 0),
         h: Enum.at(size_list, 1),
-        path: "#{@source_dir}/#{file}"
+        path: "#{source_dir}/#{file}"
     }
   end
 
-  defp create_image_generation_command({width, height}, block_list) do
+  defp create_image_generation_command({width, height}, block_list, dest_dir) do
     image_generation_command = [
       "convert -define png:exclude-chunks=date -quality 0% -size #{width}x#{height} xc:none"
     ]
 
     append_individual_image_operation_command(image_generation_command, block_list)
-    |> append_command_endpart()
+    |> append_command_endpart(dest_dir)
   end
 
   defp append_individual_image_operation_command(image_generation_command, block_list) do
@@ -82,8 +93,8 @@ defmodule SpritePacker.Core.Generator do
     ["#{path} -geometry +#{x}+#{y} -composite"]
   end
 
-  defp append_command_endpart(image_generation_command) do
-    ["#{@dest_dir}/spriteatlas.png" | image_generation_command]
+  defp append_command_endpart(image_generation_command, dest_dir) do
+    ["#{dest_dir}/spriteatlas.png" | image_generation_command]
     |> Enum.reverse()
     |> Enum.join(" ")
   end
