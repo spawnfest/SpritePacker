@@ -5,6 +5,7 @@ defmodule SpritePacker.Structs.Block do
     w: nil,
     h: nil,
     can_fit: false,
-    path: nil
+    path: nil,
+    name: nil
   )
 end

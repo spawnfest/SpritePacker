@@ -18,7 +18,8 @@ defmodule SpritePacker do
     |> pack_by_algorithm(algorithm, atlas_size)
     |> filter_only_fit
     |> Generator.generate_spriteatlas(dest_dir)
-    |> confirm_result(dest_dir)
+
+    # |> confirm_result(dest_dir)
   end
 
   defp pack_by_algorithm(block_list, algorithm_type, atlas_size)
@@ -37,9 +38,4 @@ defmodule SpritePacker do
 
     {size, filtered_block_list}
   end
-
-  defp confirm_result({"", 0}, dest_dir),
-    do: "Atlas created successfully in [#{dest_dir}] directory"
-
-  defp confirm_result(_, _), do: "Error occured"
 end

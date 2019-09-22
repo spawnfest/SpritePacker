@@ -30,6 +30,7 @@ defmodule SpritePacker.Core.Generator do
   def generate_spriteatlas({{width, height}, block_list} = _atlas_info, dest_dir) do
     create_image_generation_command({width, height}, block_list, dest_dir)
     |> execute_command(dest_dir)
+    |> generate_json_data({width, height}, block_list, dest_dir)
   end
 
   defp filter_only_images(files) do
@@ -63,13 +64,14 @@ defmodule SpritePacker.Core.Generator do
       |> String.split("x")
       |> Enum.map(fn size -> String.to_integer(size) end)
 
-    block = %{x: 0, y: 0, w: nil, h: nil, can_fit: false, path: nil}
+    block = %{x: 0, y: 0, w: nil, h: nil, can_fit: false, path: nil, name: nil}
 
     %{
       block
       | w: Enum.at(size_list, 0),
         h: Enum.at(size_list, 1),
-        path: "#{source_dir}/#{file}"
+        path: "#{source_dir}/#{file}",
+        name: file |> String.split(".") |> Enum.at(0)
     }
   end
 
@@ -124,5 +126,45 @@ defmodule SpritePacker.Core.Generator do
       true -> :ok
       false -> File.mkdir(dest_dir)
     end
+  end
+
+  defp generate_spriteatlas_json(block_list) do
+    json_data = %{"frames" => %{}, "meta" => %{}}
+
+    block_list
+    |> Enum.reduce(json_data, fn block, json_data ->
+      put_in(json_data["frames"][block.name], get_block_json(block))
+    end)
+  end
+
+  defp get_block_json(block) do
+    %{frame: %{x: block.x, y: block.y, w: block.w, h: block.h}}
+  end
+
+  defp append_json_data_meta(json_data, {width, height}, dest_dir) do
+    Map.update!(json_data, "meta", fn _ ->
+      %{
+        app: "sprite_packer",
+        version: "0.1.0",
+        image: "spriteatlas.png",
+        size: %{w: width, h: height}
+      }
+    end)
+    |> Jason.encode!()
+    |> save_json_data(dest_dir)
+  end
+
+  defp generate_json_data({"", 0}, {width, height}, block_list, dest_dir) do
+    generate_spriteatlas_json(block_list)
+    |> append_json_data_meta({width, height}, dest_dir)
+  end
+
+  defp generate_json_data(_, _, _, _) do
+    :error
+  end
+
+  defp save_json_data(json_data, dest_dir) do
+    File.write!("#{dest_dir}/spriteatlas.json", json_data)
+    "Atlas and json created successfully in [#{dest_dir}] directory"
   end
 end

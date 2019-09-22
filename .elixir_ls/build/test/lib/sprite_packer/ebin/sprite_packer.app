@@ -1,5 +1,5 @@
 {application,sprite_packer,
-             [{applications,[kernel,stdlib,elixir,logger]},
+             [{applications,[kernel,stdlib,elixir,logger,jason]},
               {description,"sprite_packer"},
               {modules,['Elixir.SpritePacker',
                         'Elixir.SpritePacker.Algorithms.Packing.GrowingBinpack',

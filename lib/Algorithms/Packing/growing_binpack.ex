@@ -107,7 +107,7 @@ defmodule SpritePacker.Algorithms.Packing.GrowingBinpack do
 
   defp grow_right(block, atlas_tree) do
     # Update the root node., have to update
-    Logger.info("Growing right")
+    # Logger.info("Growing right")
     root_node = Enum.fetch!(atlas_tree, 0)
 
     atlas_tree =
@@ -130,7 +130,7 @@ defmodule SpritePacker.Algorithms.Packing.GrowingBinpack do
   end
 
   defp grow_down(block, atlas_tree) do
-    Logger.info("Growing down")
+    # Logger.info("Growing down")
     root_node = Enum.fetch!(atlas_tree, 0)
 
     atlas_tree =
