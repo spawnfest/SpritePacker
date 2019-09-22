@@ -5,6 +5,7 @@ defmodule SpritePacker.Algorithms.Packing.SimpleBinpack do
     The whole Atlas is represented as a Binary Tree
   """
   require Logger
+
   def pack(blocks, atlas_width \\ 1024, atlas_height \\ 768) do
     create_atlas_tree(atlas_width, atlas_height)
     |> pack_the_blocks(blocks, [])
