@@ -5,6 +5,7 @@
                         'Elixir.SpritePacker.Algorithms.Packing.GrowingBinpack',
                         'Elixir.SpritePacker.Algorithms.Packing.SimpleBinpack',
                         'Elixir.SpritePacker.Algorithms.Sort',
+                        'Elixir.SpritePacker.CLI',
                         'Elixir.SpritePacker.Core.Generator',
                         'Elixir.SpritePacker.Structs.Block']},
               {registered,[]},
