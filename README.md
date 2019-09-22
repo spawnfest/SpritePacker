@@ -32,5 +32,5 @@ Options:
 2.  run ```escript .\sprite_packer -s .\test_sprites\ ```
 3.  A folder <sprite_packer> will be generated inside test_sprites(source_directory) with spriteatlas.png and spriteatlas.json
 
-### Generated Atlas ###
+### Generated spritesheet from the test ###
 ![Generated spritesheet](temp/spriteatlas.png?raw=true "SpriteSheet")
