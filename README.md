@@ -34,3 +34,10 @@ Options:
 
 ### Generated spritesheet from the test ###
 ![Generated spritesheet](temp/spriteatlas.png?raw=true "SpriteSheet")
+
+### Todo ###
+
+1.  Optimize the Growing binpack algorithm.
+2.  Support more formats(cross-game engine support)
+3.  Add a dashboard where users can drag the images, select desired format etc..(in phoenix live-view)
+
