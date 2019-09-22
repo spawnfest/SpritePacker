@@ -29,7 +29,7 @@ defmodule SpritePacker.Core.Generator do
   """
   def generate_spriteatlas({{width, height}, block_list} = _atlas_info, dest_dir) do
     create_image_generation_command({width, height}, block_list, dest_dir)
-    |> execute_command()
+    |> execute_command(dest_dir)
   end
 
   defp filter_only_images(files) do
@@ -99,9 +99,12 @@ defmodule SpritePacker.Core.Generator do
     |> Enum.join(" ")
   end
 
-  defp execute_command(image_generation_command) do
+  defp execute_command(image_generation_command, dest_dir) do
     arg_list = String.split(image_generation_command)
-    magick_exec(arg_list)
+    case create_dest_dir(dest_dir) do
+      :ok -> magick_exec(arg_list)
+      _ -> "Error when to tried to create destination folder"
+    end
   end
 
   defp magick_exec(arg_list) do
@@ -110,6 +113,13 @@ defmodule SpritePacker.Core.Generator do
       _           ->
         [exec_command | rest_arg_list] = arg_list
         System.cmd(exec_command, rest_arg_list)
+    end
+  end
+
+  defp create_dest_dir(dest_dir) do
+    case File.exists?(dest_dir) do
+      true -> :ok
+      false -> File.mkdir(dest_dir)
     end
   end
 end
