@@ -11,12 +11,12 @@ defmodule SpritePacker.Algorithms.Packing.SimpleBinpack do
   end
 
   # A recursive function, that loops through each block and find a fit in the atlas.
-  defp pack_the_blocks(atlas_tree, [], new_block_list), do: {atlas_tree, new_block_list}
+  defp pack_the_blocks(_atlas_tree, [], new_block_list), do: new_block_list
 
   defp pack_the_blocks(atlas_tree, [h | t], new_block_list) do
     # Starting from the root node.
     atlas_node = find_atlasnode(h, Enum.fetch!(atlas_tree, 0), atlas_tree)
-    Logger.info(inspect atlas_node)
+    # Logger.info(inspect atlas_node)
     {updated_block, atlas_tree} =
       cond do
         atlas_node !== nil ->
