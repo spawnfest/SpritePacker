@@ -24,9 +24,7 @@ Options:
     -h #help
 ```
 
-**TODO: Add description**
 
-## Installation
 ### Installation ###
 1. Install [ImageMagick](http://www.imagemagick.org/)
 2. mix escript.build (for building commandline)
