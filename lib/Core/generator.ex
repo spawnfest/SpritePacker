@@ -101,6 +101,7 @@ defmodule SpritePacker.Core.Generator do
 
   defp execute_command(image_generation_command, dest_dir) do
     arg_list = String.split(image_generation_command)
+
     case create_dest_dir(dest_dir) do
       :ok -> magick_exec(arg_list)
       _ -> "Error when to tried to create destination folder"
@@ -109,8 +110,10 @@ defmodule SpritePacker.Core.Generator do
 
   defp magick_exec(arg_list) do
     case :os.type() do
-      {:win32, _} ->  System.cmd("magick", arg_list)
-      _           ->
+      {:win32, _} ->
+        System.cmd("magick", arg_list)
+
+      _ ->
         [exec_command | rest_arg_list] = arg_list
         System.cmd(exec_command, rest_arg_list)
     end

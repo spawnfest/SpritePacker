@@ -8,8 +8,8 @@ defmodule SpritePacker do
   alias SpritePacker.Algorithms.Packing.GrowingBinpack
 
   def pack(
-        source_dir \\ "sprite_generator_source",
-        dest_dir \\ "sprite_generator_dest",
+        source_dir \\ "test_sprites",
+        dest_dir \\ "test_sprites/sprite_packer",
         algorithm \\ "simple",
         atlas_size \\ {1024, 768}
       ) do
