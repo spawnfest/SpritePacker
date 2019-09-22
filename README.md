@@ -12,9 +12,6 @@ $ escript sprite_packer -s test_sprites
 ```
 Options:
 ```bash
-$ sprite_packer
-Usage: sprite_packer -s [source directory] [options]
-
 Note: Atlas will be generated in "<source>/sprite_packer/"
 
 Options:
