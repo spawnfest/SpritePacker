@@ -10,7 +10,7 @@ defmodule SpritePacker do
   def pack(
         source_dir \\ "test_sprites",
         dest_dir \\ "test_sprites/sprite_packer",
-        algorithm \\ "simple",
+        algorithm \\ "growing",
         atlas_size \\ {1024, 768}
       ) do
     Generator.create_image_blocks(source_dir)

@@ -20,6 +20,8 @@ defmodule SpritePacker.Algorithms.Packing.SimpleBinpack do
   end
 
   defp pack_the_blocks(atlas_tree, [h | t], new_block_list) do
+    # Logger.info(inspect atlas_tree)
+
     # Starting from the root node.
     atlas_node = find_atlasnode(h, Enum.fetch!(atlas_tree, 0), atlas_tree)
     # Logger.info(inspect atlas_node)
@@ -40,8 +42,12 @@ defmodule SpritePacker.Algorithms.Packing.SimpleBinpack do
   end
 
   defp find_atlasnode(block, %{is_used: true} = parent, atlas_tree) do
-    find_atlasnode(block, Enum.fetch!(atlas_tree, 2 * parent.id + 1), atlas_tree) ||
-      find_atlasnode(block, Enum.fetch!(atlas_tree, 2 * parent.id + 2), atlas_tree)
+    Logger.info(
+      "tree count => #{inspect(Enum.count(atlas_tree))}, fetch => #{inspect(2 * parent.id + 2)}"
+    )
+
+    find_atlasnode(block, Enum.at(atlas_tree, 2 * parent.id + 1), atlas_tree) ||
+      find_atlasnode(block, Enum.at(atlas_tree, 2 * parent.id + 2), atlas_tree)
   end
 
   defp find_atlasnode(%{w: b_w, h: b_h} = _block, %{w: node_w, h: node_h} = parent, atlas_tree)

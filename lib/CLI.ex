@@ -29,7 +29,7 @@ defmodule SpritePacker.CLI do
 
     sprite_packer -s [source directory] [options]
 
-    Note: Atlas will be generated in "source/sprite_packer/"
+    Note: Atlas will be generated in "<source>/sprite_packer/"
 
     Options:
     -s, [--src] # source directory of sprites to be packed into atlas
