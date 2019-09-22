@@ -56,7 +56,7 @@ defmodule SpritePacker.Core.Generator do
   end
 
   defp extract_image_details_to_block(file, source_dir) do
-    {size, _} = System.cmd("magick", ["identify", "-format", "%wx%h", "#{source_dir}/#{file}"])
+    {size, _} = magick_exec(["identify", "-format", "%wx%h", "#{source_dir}/#{file}"])
 
     size_list =
       size
@@ -101,6 +101,15 @@ defmodule SpritePacker.Core.Generator do
 
   defp execute_command(image_generation_command) do
     arg_list = String.split(image_generation_command)
-    System.cmd("magick", arg_list)
+    magick_exec(arg_list)
+  end
+
+  defp magick_exec(arg_list) do
+    case :os.type() do
+      {:win32, _} ->  System.cmd("magick", arg_list)
+      _           ->
+        [exec_command | rest_arg_list] = arg_list
+        System.cmd(exec_command, rest_arg_list)
+    end
   end
 end
