@@ -2,7 +2,8 @@ defmodule SpritePacker.Algorithms.Packing.GrowingBinpack do
   @moduledoc """
     A Binary-Tree based binpack algorithm, where atlas size grows according to the new block size.
 
-  """
+	"""
+	require Logger
   def pack(blocks) do
     # Pass the largest block to initialize the width and height of atlas tree
     create_atlas_tree(Enum.fetch!(blocks, 0))
@@ -10,12 +11,12 @@ defmodule SpritePacker.Algorithms.Packing.GrowingBinpack do
   end
 
   # A recursive function, that loops through each block and find a fit in the atlas.
-  defp pack_the_blocks(_atlas_tree, [], new_block_list), do: new_block_list
+  defp pack_the_blocks(atlas_tree, [], new_block_list), do: {Enum.at(atlas_tree, 0), new_block_list}
 
   defp pack_the_blocks(atlas_tree, [h | t], new_block_list) do
     # Starting from the root node.
     atlas_node = find_atlasnode(h, Enum.fetch!(atlas_tree, 0), atlas_tree)
-
+		Logger.info(inspect atlas_node)
     {updated_block, atlas_tree} =
       cond do
         atlas_node !== nil ->

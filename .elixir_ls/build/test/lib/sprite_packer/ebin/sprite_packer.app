@@ -4,6 +4,8 @@
               {modules,['Elixir.SpritePacker',
                         'Elixir.SpritePacker.Algorithms.Packing.GrowingBinpack',
                         'Elixir.SpritePacker.Algorithms.Packing.SimpleBinpack',
-                        'Elixir.SpritePacker.Algorithms.Sort']},
+                        'Elixir.SpritePacker.Algorithms.Sort',
+                        'Elixir.SpritePacker.Core.Generator',
+                        'Elixir.SpritePacker.Structs.Block']},
               {registered,[]},
               {vsn,"0.1.0"}]}.
